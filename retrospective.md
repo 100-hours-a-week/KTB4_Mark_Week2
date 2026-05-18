@@ -24,7 +24,7 @@
 
 예시) iceAmericano 생성자에서 super로 상위 타입인 drink로 값을 넘기고 drink 생성자에서 super로 다시 MenuItem에 다시 넘겨야 했기때문에 뭔가 과정이 많은 구조라고 생각해서 사용하지 않았습니다.
 
-#### MenuItem에 excuteStep(실제 제조 메소드)을 추상메서드로 한 이유
+#### MenuItem에 executeStep(실제 제조 메소드)을 추상메서드로 한 이유
 
 각 메뉴마다 제조 과정이 다르기 떄문에 각 구현 클래스에서 오버라이딩해서 사용하고 싶어서 추상클래스로 했습니다.
 

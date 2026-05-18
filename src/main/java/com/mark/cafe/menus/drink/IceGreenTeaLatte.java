@@ -22,7 +22,7 @@ public class IceGreenTeaLatte extends Drink implements AddGreenTeaPowder {
 
 
     @Override
-    public void excuteStep(int idx) {
+    public void executeStep(int idx) {
         switch(idx){
             case 0:
                 prepareCup();

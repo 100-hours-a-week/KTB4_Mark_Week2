@@ -9,7 +9,9 @@ public enum DessertSteps implements Recipes {
     CHOCO_DECORATOR("초코 데코레이터 하기"),
     STRAWBERRY_DECORATOR("딸기 데코레이터 하기"),
     ADD_CHOCO_CREAM("초코크림 바르기"),
-    ADD_STRAWBERRY_CREAM("딸기크림 바르기");
+    ADD_STRAWBERRY_CREAM("딸기크림 바르기"),
+    STRAWBERRY_CAKE("딸기케이크"),
+    CHOCO_CAKE("초코케이크");
 
     private final String step;
 

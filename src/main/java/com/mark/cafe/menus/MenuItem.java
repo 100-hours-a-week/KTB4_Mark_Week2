@@ -34,7 +34,7 @@ public abstract class MenuItem {
         }
     }
 
-    public abstract void excuteStep(int idx);
+    public abstract void executeStep(int idx);
 
     public String getName(){
         return name;

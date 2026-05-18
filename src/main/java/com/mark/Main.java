@@ -99,7 +99,7 @@ public class Main {
                     player.loseMoney(menu.getPrice());
                     break;
                 } else {
-                    menu.excuteStep(i);
+                    menu.executeStep(i);
                 }
                 if(i == menu.getRecipeSteps().size() - 1){
                     success = true;

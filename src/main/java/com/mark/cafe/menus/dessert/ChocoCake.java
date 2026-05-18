@@ -30,7 +30,7 @@ public class ChocoCake extends Dessert {
     }
 
     @Override
-    public void excuteStep(int idx) {
+    public void executeStep(int idx) {
         switch(idx){
             case 0:
                 prep();
