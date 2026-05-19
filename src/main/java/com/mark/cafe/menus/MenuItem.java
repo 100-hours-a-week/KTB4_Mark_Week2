@@ -17,21 +17,12 @@ public abstract class MenuItem {
         this.recipeSteps = recipeSteps;
     }
 
-    public void showRecipe(){
-        for(Recipes step : recipeSteps){
-            System.out.println(step.getStep());
-        }
-    }
     public List<Recipes> getRecipeSteps(){
         return List.copyOf(recipeSteps);
     }
 
     public boolean checkSteps(Recipes choice, int idx){
-        if(recipeSteps.get(idx) == choice) {
-            return true;
-        } else{
-            return false;
-        }
+        return recipeSteps.get(idx) == choice;
     }
 
     public abstract void executeStep(int idx);

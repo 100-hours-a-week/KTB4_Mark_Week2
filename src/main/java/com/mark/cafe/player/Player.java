@@ -2,13 +2,9 @@ package com.mark.cafe.player;
 
 public class Player {
     private int money;
-    private int successAmount;
-    private int failAmount;
 
-    public Player(int money, int successAmount, int failAmount) {
+    public Player(int money) {
         this.money = money;
-        this.successAmount = successAmount;
-        this.failAmount  = failAmount;
     }
 
     public void earnMoney(int price){
@@ -23,15 +19,4 @@ public class Player {
         return money;
     }
 
-    public int getSuccessAmount(){
-        return successAmount;
-    }
-
-    public int getFailAmount(){
-        return failAmount;
-    }
-
-    public void checkResult(){
-        System.out.println("현재 매출은 : " + money + " 입니다.");
-    }
 }

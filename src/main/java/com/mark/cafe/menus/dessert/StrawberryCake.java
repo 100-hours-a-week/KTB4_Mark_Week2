@@ -11,7 +11,7 @@ public class StrawberryCake extends Dessert {
 
     public StrawberryCake(){
 
-        super(DessertSteps.STRAWBERRY_DECORATOR.getStep(),
+        super(DessertSteps.STRAWBERRY_CAKE.getStep(),
                 5000,
                 new ArrayList<>(Arrays.asList(
                         DessertSteps.PREP,
