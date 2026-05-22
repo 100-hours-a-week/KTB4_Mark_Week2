@@ -1,6 +1,7 @@
 package com.mark.cafe.service;
 
 import com.mark.cafe.menus.MenuItem;
+import com.mark.cafe.entity.Order;
 
 import java.util.Random;
 
@@ -12,9 +13,9 @@ public class OrderService {
         this.menuItems = menuItems;
     }
 
-    public MenuItem receiveOrder(){
+    public Order receiveOrder(){
         int menuSelect = random.nextInt(menuItems.length);
-        return menuItems[menuSelect];
+        return new Order(menuItems[menuSelect], System.currentTimeMillis());
     }
 
 

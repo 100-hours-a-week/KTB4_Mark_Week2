@@ -1,7 +1,7 @@
 package com.mark.cafe.view;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
+
 
 public class InputView {
     private final Scanner sc;
@@ -10,11 +10,7 @@ public class InputView {
         this.sc = sc;
     }
 
-    public String checkRecipe(){
-        return sc.nextLine();
-    }
-
-    public String choiceStepUser() {
+    public String readLine(){
         return sc.nextLine();
     }
 
