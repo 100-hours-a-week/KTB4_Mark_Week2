@@ -2,24 +2,22 @@ package com.mark;
 
 
 import com.mark.cafe.actions.Messages;
-import com.mark.cafe.actions.Recipes;
-import com.mark.cafe.converter.RecipeConverter;
 import com.mark.cafe.menus.MenuItem;
-import com.mark.cafe.menus.dessert.ChocoCake;
-import com.mark.cafe.menus.dessert.StrawberryCake;
-import com.mark.cafe.menus.drink.*;
-import com.mark.cafe.player.Player;
-import com.mark.cafe.rule.GameRule;
+import com.mark.cafe.entity.Order;
+import com.mark.cafe.entity.Player;
+import com.mark.cafe.recipes.DessertMenus;
+import com.mark.cafe.recipes.DrinkMenus;
 import com.mark.cafe.service.OrderService;
+import com.mark.cafe.producers.OrderProducer;
+import com.mark.cafe.service.PlayService;
 import com.mark.cafe.view.InputView;
 import com.mark.cafe.view.OutputView;
 
 import java.util.*;
+import java.util.concurrent.*;
 
 import static com.mark.cafe.messages.GameMessage.*;
-import static com.mark.cafe.messages.MakingMessage.*;
-import static com.mark.cafe.messages.OrderMessage.ASK_RECIPE;
-import static com.mark.cafe.messages.OrderMessage.DISPLAY_ORDER;
+import static com.mark.cafe.rule.GameRule.DEFAULT_RATING;
 
 public class Main {
     public static void main(String[] args){
@@ -27,91 +25,30 @@ public class Main {
         Random random = new Random();
         Scanner sc = new Scanner(System.in);
 
-        // 메뉴를 랜덤으로 뽑기 쉽게하기 위함, 다형성을 이용해서 상위 타입 참조변수로 하위 타입들 다루기 위함
         MenuItem[] menuItems = new MenuItem[]{
-                new IceAmericano(),
-                new Americano(),
-                new GreenTeaLatte(),
-                new IceGreenTeaLatte(),
-                new ChocoCake(),
-                new StrawberryCake()
+                new MenuItem(DrinkMenus.ICE_AMERICANO),
+                new MenuItem(DrinkMenus.AMERICANO),
+                new MenuItem(DrinkMenus.GREEN_TEA_LATTE),
+                new MenuItem(DrinkMenus.ICE_GREEN_TEA_LATTE),
+                new MenuItem(DessertMenus.CHOCO_CAKE),
+                new MenuItem(DessertMenus.STRAWBERRY_CAKE)
         };
 
         OrderService orderService = new OrderService(menuItems);
         OutputView outputView = new OutputView();
         InputView inputView = new InputView(sc);
-        RecipeConverter recipeConverter = new RecipeConverter();
+
+        BlockingQueue<Order> orderQueue = new ArrayBlockingQueue<>(10);
 
         int playerMoney = (random.nextInt(10) + 1) * 500;
+        Player player = new Player(playerMoney, DEFAULT_RATING);
 
-        outputView.printMessage(START_GAME);
+        Thread orderProducerThread = new Thread(new OrderProducer(orderService, orderQueue, outputView, player));
+        orderProducerThread.start();
+        Messages gameMessage = new PlayService(orderQueue, outputView, inputView, player).play();
 
-        Player player = new Player(playerMoney);
-
-        outputView.checkResult(player.getMoney());
-
-
-        while(true){
-            outputView.printMessage(DISPLAY_ORDER);
-            boolean success = false;
-
-            MenuItem menu = orderService.receiveOrder();
-            outputView.displayMenu(menu.getName());
-            outputView.printMessage(ASK_RECIPE);
-            String checkRecipe = inputView.checkRecipe();
-
-            if(GameRule.AGREE_SHOW_RECIPE.equalsIgnoreCase(checkRecipe)){
-                outputView.showRecipe(recipeConverter.toSteps(menu.getRecipeSteps()));
-            }
-            outputView.printMessage(START_MAKING);
-            outputView.printMessage(SELECT_RECIPE_ORDER);
-            for(int i = 0; i < menu.getRecipeSteps().size(); i++){
-
-                List<Recipes> shuffleRecipe = new ArrayList<Recipes>(menu.getRecipeSteps());
-                Collections.shuffle(shuffleRecipe);
-
-                outputView.askShuffleRecipe(recipeConverter.toIndexSteps(shuffleRecipe));
-                outputView.printMessage(CHOICE_STEP);
-
-                String stepInput = inputView.choiceStepUser();
-                int userChoice;
-                try{
-                    userChoice = Integer.parseInt(stepInput);
-                }catch (NumberFormatException e){
-                    outputView.printMessage(WRONG_CHOICE_STEP);
-                    player.loseMoney(menu.getPrice());
-                    break;
-                }
-
-                if(userChoice >= menu.getRecipeSteps().size() || userChoice < 0){
-                    outputView.printMessage(WRONG_CHOICE_STEP);
-                    player.loseMoney(menu.getPrice());
-                    break;
-                }
-
-                if(!menu.checkSteps(shuffleRecipe.get(userChoice), i)){
-                    outputView.printMessage(FAILED_MAKING);
-                    player.loseMoney(menu.getPrice());
-                    break;
-                } else {
-                    menu.executeStep(i);
-                }
-                if(i == menu.getRecipeSteps().size() - 1){
-                    success = true;
-                }
-            }
-            if(success) {
-                outputView.printMessage(SUCCESS_MAKING);
-                player.earnMoney(menu.getPrice());
-            }
-            outputView.checkResult(player.getMoney());
-            if(GameRule.isFail(player.getMoney())){
-                outputView.printMessage(FAIL_GAME);
-                break;
-            } else if (GameRule.isSuccess(player.getMoney())){
-                outputView.printMessage(SUCCESS_GAME);
-                break;
-            }
+        if(gameMessage == END_GAME){
+            orderProducerThread.interrupt();
         }
         inputView.closeScanner();
     }
