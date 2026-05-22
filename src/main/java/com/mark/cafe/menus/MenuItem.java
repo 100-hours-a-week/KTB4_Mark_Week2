@@ -1,20 +1,19 @@
 package com.mark.cafe.menus;
 
+import com.mark.cafe.actions.Menus;
 import com.mark.cafe.actions.Recipes;
 
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
-public abstract class MenuItem {
-    private String name;
-    private int price;
-    private List<Recipes> recipeSteps;
+public class MenuItem {
+    private final String name;
+    private final int price;
+    private final List<Recipes> recipeSteps;
 
-    protected MenuItem(String name, int price, List<Recipes> recipeSteps){
-        this.name = name;
-        this.price = price;
-        this.recipeSteps = recipeSteps;
+    public MenuItem(Menus menu){
+        this.name = menu.getMenuName();
+        this.price = menu.getMenuPrice();
+        this.recipeSteps = menu.getMenuSteps();
     }
 
     public List<Recipes> getRecipeSteps(){
@@ -25,7 +24,9 @@ public abstract class MenuItem {
         return recipeSteps.get(idx) == choice;
     }
 
-    public abstract void executeStep(int idx);
+    public Recipes executeStep(int idx){
+        return recipeSteps.get(idx);
+    };
 
     public String getName(){
         return name;
