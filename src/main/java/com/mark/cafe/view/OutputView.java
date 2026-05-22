@@ -16,6 +16,10 @@ public class OutputView {
         System.out.println(message.getMessage());
     }
 
+    public void printExecuteStep(Recipes recipe){
+        System.out.println(recipe.getStep());
+    }
+
     public void checkResult(int money){
         System.out.println("현재 매출은 : " + money + " 입니다.");
     }
@@ -23,12 +27,6 @@ public class OutputView {
     public void showRecipe(List<String> recipes){
         for(String recipe: recipes){
             System.out.println(recipe);
-        }
-    }
-
-    public void askShuffleRecipe(List<String> shuffleRecipe){
-        for(String recipeStep: shuffleRecipe){
-            System.out.println(recipeStep);
         }
     }
 

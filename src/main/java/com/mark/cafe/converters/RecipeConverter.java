@@ -1,4 +1,4 @@
-package com.mark.cafe.converter;
+package com.mark.cafe.converters;
 
 import com.mark.cafe.actions.Recipes;
 
@@ -7,8 +7,7 @@ import java.util.List;
 
 public class RecipeConverter {
 
-
-    public List<String> toSteps(List<Recipes> recipes){
+    public static List<String> toSteps(List<Recipes> recipes){
         List<String> stringSteps = new ArrayList<>();
         for(Recipes recipe : recipes){
             stringSteps.add(recipe.getStep());
@@ -16,7 +15,7 @@ public class RecipeConverter {
         return stringSteps;
     }
 
-    public List<String> toIndexSteps(List<Recipes> recipes){
+    public static List<String> toIndexSteps(List<Recipes> recipes){
         List<String> stringSteps = new ArrayList<>();
         for(int i = 0; i < recipes.size(); i++){
             stringSteps.add(i + " : " + recipes.get(i).getStep());
