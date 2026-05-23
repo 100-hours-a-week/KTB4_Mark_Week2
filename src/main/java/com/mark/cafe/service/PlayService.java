@@ -49,6 +49,7 @@ public class PlayService{
                 break;
             }
 
+            outputView.printMessage(START_MAKING);
             outputView.displayMenu(order.getMenu().getName());
             outputView.printMessage(ASK_RECIPE);
 
