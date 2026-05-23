@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 import static com.mark.cafe.messages.GameMessage.*;
 import static com.mark.cafe.messages.MakingMessage.*;
@@ -25,7 +24,6 @@ public class PlayService{
     private final InputView inputView;
     private final Player player;
 
-
     public PlayService(BlockingQueue<Order> orderQueue, OutputView outputView, InputView inputView, Player player){
         this.orderQueue = orderQueue;
         this.outputView = outputView;
@@ -34,7 +32,6 @@ public class PlayService{
     }
     
     public Messages play() {
-
         outputView.printMessage(START_GAME);
         outputView.checkResult(player.getMoney());
         while (true) {

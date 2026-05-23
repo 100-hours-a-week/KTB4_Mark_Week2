@@ -42,7 +42,7 @@ public class OrderProducer implements Runnable{
                     outputView.printMessage(DOWN_RATING);
                     player.downRating();
                 }
-                int orderDelay = 5000 + random.nextInt(1000) + 1;
+                int orderDelay = 5000 + random.nextInt(10000) + 1;
                 Thread.sleep(orderDelay);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
