@@ -18,6 +18,7 @@ import java.util.concurrent.*;
 
 import static com.mark.cafe.messages.GameMessage.*;
 import static com.mark.cafe.rule.GameRule.DEFAULT_RATING;
+import static com.mark.cafe.rule.GameRule.MAX_ORDER_COUNT;
 
 public class Main {
     public static void main(String[] args){
@@ -38,7 +39,7 @@ public class Main {
         OutputView outputView = new OutputView();
         InputView inputView = new InputView(sc);
 
-        BlockingQueue<Order> orderQueue = new ArrayBlockingQueue<>(10);
+        BlockingQueue<Order> orderQueue = new ArrayBlockingQueue<>(MAX_ORDER_COUNT);
 
         int playerMoney = (random.nextInt(10) + 1) * 500;
         Player player = new Player(playerMoney, DEFAULT_RATING);

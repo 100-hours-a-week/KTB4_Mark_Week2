@@ -7,6 +7,8 @@ public class GameRule {
     public static final int DEFAULT_RATING = 3;
     public static final String AGREE_SHOW_RECIPE = "Y";
 
+    public static final int MAX_ORDER_COUNT = 10;
+
     public static boolean isSuccess(int money){
         return money >= SUCCESS_AMOUNT;
     }
